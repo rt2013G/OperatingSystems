@@ -1,3 +1,7 @@
+#Others
+.vscode/
+notes_it/
+
 # Prerequisites
 *.d
 
@@ -50,9 +54,3 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
-
-#Others
-.idea/
-cmake-build-debug
-CMakeLists.txt
-src/Testing.c
