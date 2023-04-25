@@ -27,7 +27,6 @@ begin
     customer()
     {
         Parbegin
-            repeat
                 wait(sem_CS);
                 if waiting < chairs 
                 then
@@ -39,7 +38,6 @@ begin
                 else
                     signal(sem_CS);
                 leave();
-            forever
         Parend;
     }
 end
