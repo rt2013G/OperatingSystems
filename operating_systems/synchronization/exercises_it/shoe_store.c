@@ -16,15 +16,18 @@ var
     employee : semaphore := 0;
 guardia()
 {
-    repeat
-        wait(waiting);
-        wait(in_the_store);
-        signal(turn);
-    forever
+    Parbegin
+        repeat
+            wait(waiting);
+            wait(in_the_store);
+            signal(turn);
+        forever
+    Parend
 }
 
 persona()
-{
+{  
+    Parbegin
         signal(waiting);
         wait(turn);
         // in the store
@@ -32,15 +35,18 @@ persona()
         wait(employee);
         buy_shoes();
         // outside the store
-        signal(in_the_store)
+        signal(in_the_store);
+    Parend
 }
 
 addetto()
 {
-    repeat
-        wait(shelf)
-        wait(client);
-        serve();
-        signal(employee);
-    forever
+    Parbegin
+        repeat
+            wait(shelf)
+            wait(client);
+            serve();
+            signal(employee);
+        forever
+    Parend
 }

@@ -11,17 +11,21 @@ var
     waiting : semaphore := 0
 guardia()
 {
-    repeat
-        wait(waiting);
-        wait(group_size);
-        signal(turn);
-    forever
+    Parbegin
+        repeat
+            wait(waiting);
+            wait(group_size);
+            signal(turn);
+        forever
+    Parend
 }
 
 persona()
 {
+    Parbegin
         signal(waiting);
         wait(turn);
         buy();
         signal(group_size);
+    Parend
 }
