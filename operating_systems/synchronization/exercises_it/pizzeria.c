@@ -51,8 +51,8 @@ begin
                 then
                     prendi_pizze(pizze_da_prendere);
                     pizze_disponibili := pizze_disponibili - pizze_da_prendere;
-                signal(sem_bancone);
-                signal(sem_CS);
+                    signal(sem_bancone);
+                    signal(sem_CS);
                 else
                     signal(sem_CS);
                     wait(sem_pizze); // Attendo che un pizzaiolo prepari una pizza

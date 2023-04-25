@@ -46,7 +46,7 @@ begin
                     wait(sem_bauli);
                 else
                     signal(sem_CS);
-                wait(sem_bauli);
+                    wait(sem_bauli);
             until (bauli_aperti >= N)
         Parend;
     }
