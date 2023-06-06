@@ -36,8 +36,8 @@ void *thread_fun(void *arg)
     int fd;
     int bytes_read;
     if((fd = open(filename, O_RDONLY)) == 0) {
-        printf("Errore nella open.\n");
-        exit(1);
+        printf("Error while opening a file.\n");
+        pthread_exit(NULL);
     }
     struct stat st;
     fstat(fd, &st);
