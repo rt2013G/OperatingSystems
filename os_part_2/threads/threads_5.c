@@ -39,6 +39,7 @@ void *func(void *tid)
         }
     }
     sums[*mytid] = mysum;
+    pthread_exit(NULL);
 }
 
 int main(int argc, char *argv[])
