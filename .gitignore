@@ -1,7 +1,7 @@
 #Others
 .vscode/
-os_part_2/threads/sols.c
 os_part_2/threads/test_dir
+os_part_2/signals/test_dir
 
 # Prerequisites
 *.d

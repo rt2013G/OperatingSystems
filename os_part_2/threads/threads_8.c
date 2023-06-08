@@ -3,7 +3,7 @@
  decomponga la somma degli elementi di un vettore di interi di dimensione 2500
  in cinque somme locali effettuate concorrentemente da altrettanti thread.
  Si contempli l'uso di una variabile mutex per regolare l'accesso alla variabile 
- per regolare l'accesso alla variabile globale che conterrà la somma degli elementi del vettore.
+ globale che conterrà la somma degli elementi del vettore.
 */
 #include <stdio.h>
 #include <stdlib.h>

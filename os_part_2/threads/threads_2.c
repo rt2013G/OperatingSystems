@@ -85,7 +85,6 @@ int main(int argc, char *argv[])
     for(int i = 0; i < n_threads; i++) {
         pthread_join(threads[i], NULL);
     }
-    sleep(1);
     pthread_mutex_destroy(&mutex);
     printf("Characters found: %d.\n", char_found);
 }
