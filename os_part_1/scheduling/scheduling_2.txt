@@ -1,0 +1,213 @@
+Si considerino i seguenti processi attivi in un sistema multiprogrammato:
+
+PROCESSO - TEMPO DI ARRIVO - CPU BURST - PRIORITA'
+P1       - 4 ms            - 12 ms     - 2
+P2       - 2 ms            - 5 ms      - 1
+P3       - 7 ms            - 10 ms     - 5
+P4       - 3 ms            - 8 ms      - 4
+P5       - 5 ms            - 9 ms      - 3
+
+Supponendo che il cambio di contesto sia 1 ms, si mostri l'ordine di esecuzione
+dei processi e il tempo di attesa medio, il tempo di turnaround medio e
+il tempo di turnaround normalizzato medio per ciascuno dei seguenti algoritmi
+di scheduling della CPU:
+- Priorità con prelazione
+- Round Robin con quanto q = 2ms
+
+/******************************/
+
+PRIORITA' CON PRELAZIONE
+
+1 ms -
+2 ms -
+3 ms - P2
+4 ms - context switch
+5 ms - P4
+6 ms - P4
+7 ms - P4
+8 ms - context switch
+9 ms - P3
+10 ms - P3
+11 ms - P3
+12 ms - P3
+13 ms - P3
+14 ms - P3
+15 ms - P3
+16 ms - P3
+17 ms - P3
+18 ms - P3
+19 ms - context switch
+20 ms - P4
+21 ms - P4
+22 ms - P4
+23 ms - P4
+24 ms - P4
+25 ms - context switch
+26 ms - P5
+27 ms - P5
+28 ms - P5
+29 ms - P5
+30 ms - P5
+31 ms - P5
+32 ms - P5
+33 ms - P5
+34 ms - P5
+35 ms - context switch
+36 ms - P1
+37 ms - P1
+38 ms - P1
+39 ms - P1
+40 ms - P1
+41 ms - P1
+42 ms - P1
+43 ms - P1
+44 ms - P1
+45 ms - P1
+46 ms - P1
+47 ms - P1
+48 ms - context switch
+49 ms - P2
+50 ms - P2
+51 ms - P2
+52 ms - P2
+
+TEMPI DI COMPLETAMENTO
+P1 - 47ms
+P2 - 52ms
+P3 - 18ms
+P4 - 24ms
+P5 - 34ms
+
+TEMPI DI TURNAROUND
+P1 - 43ms
+P2 - 50ms
+P3 - 11ms
+P4 - 21ms
+P5 - 29ms
+TEMPO DI TURNAROUND MEDIO: 30.8ms
+
+TEMPI DI ATTESA
+P1 - 31ms
+P2 - 45ms
+P3 - 1ms
+P4 - 13ms
+P5 - 20ms
+TEMPO DI ATTESA MEDIO: 22ms
+
+TURNAROUND PESATI
+P1 - 3.58
+P2 - 10
+P3 - 1.1
+P4 - 2.63
+P5 - 3.2
+TURNAROUND PESATO MEDIO: 4.1
+
+THROUGHPUT:
+0.096
+
+
+/******************************/
+
+ROUND ROBIN CON QUANTO Q = 2ms
+
+1 ms -
+2 ms -   - (P2)
+3 ms - P2 - (P4)
+4 ms - P2 - (P1->P4)
+5 ms - context switch - (P2->P5->P1->P4)
+6 ms - P4 - (P2->P5->P1)
+7 ms - P4 - (P3->P2->P5->P1)
+8 ms - context switch - (P4->P3->P2->P5->P1)
+9 ms - P1 - (P4->P3->P2->P5)
+10 ms - P1 - (P4->P3->P2->P5)
+11 ms - context switch - (P1->P4->P3->P2->P5)
+12 ms - P5 - (P1->P4->P3->P2)
+13 ms - P5 - (P1->P4->P3->P2)
+14 ms - context switch - (P5->P1->P4->P3->P2)
+15 ms - P2 - (P5->P1->P4->P3)
+16 ms - P2 - (P5->P1->P4->P3)
+17 ms - context switch - (P2->P5->P1->P4->P3)
+18 ms - P3 - (P2->P5->P1->P4)
+19 ms - P3 - (P2->P5->P1->P4)
+20 ms - context switch - (P3->P2->P5->P1->P4)
+21 ms - P4 - (P3->P2->P5->P1)
+22 ms - P4 - (P3->P2->P5->P1)
+23 ms - context switch - (P4->P3->P2->P5->P1)
+24 ms - P1 - (P4->P3->P2->P5)
+25 ms - P1 - (P4->P3->P2->P5)
+26 ms - context switch - (P1->P4->P3->P2->P5)
+27 ms - P5 - (P1->P4->P3->P2)
+28 ms - P5 - (P1->P4->P3->P2)
+29 ms - context switch - (P5->P1->P4->P3->P2)
+30 ms - P2 - (P5->P1->P4->P3)
+31 ms - context switch - (P5->P1->P4->P3)
+32 ms - P3 - (P5->P1->P4)
+33 ms - P3 - (P5->P1->P4)
+34 ms - context switch - (P3->P5->P1->P4)
+35 ms - P4 - (P3->P5->P1)
+36 ms - P4 - (P3->P5->P1)
+37 ms - context switch - (P4->P3->P5->P1)
+38 ms - P1 - (P4->P3->P5)
+39 ms - P1 - (P4->P3->P5)
+40 ms - context switch - (P1->P4->P3->P5)
+41 ms - P5 - (P1->P4->P3)
+42 ms - P5 - (P1->P4->P3)
+43 ms - context switch - (P5->P1->P4->P3)
+44 ms - P3 - (P5->P1->P4)
+45 ms - P3 - (P5->P1->P4)
+46 ms - context switch - (P3->P5->P1->P4)
+47 ms - P4 - (P3->P5->P1)
+48 ms - P4 - (P3->P5->P1)
+49 ms - context switch - (P3->P5->P1)
+50 ms - P1 - (P3->P5)
+51 ms - P1 - (P3->P5)
+52 ms - context switch - (P1->P3->P5)
+53 ms - P5 - (P1->P3)
+54 ms - P5 - (P1->P3)
+55 ms - context switch - (P5->P1->P3)
+56 ms - P3 - (P5->P1)
+57 ms - P3 - (P5->P1)
+58 ms - context switch - (P3->P5->P1)
+59 ms - P1 - (P3->P5)
+60 ms - P1 - (P3->P5)
+61 ms - context switch - (P1->P3->P5)
+62 ms - P5 - (P1->P3)
+63 ms - context switch - (P1->P3)
+64 ms - P3 - (P1)
+65 ms - P3 - (P1)
+66 ms - context switch - (P1)
+67 ms - P1 - ()
+68 ms - P1 - ()
+
+TEMPI DI COMPLETAMENTO
+P1 - 68ms
+P2 - 30ms
+P3 - 65ms
+P4 - 48ms
+P5 - 62ms
+
+TEMPI DI TURNAROUND:
+P1 - 64ms
+P2 - 28ms
+P3 - 58ms
+P4 - 45ms
+P5 - 57ms
+TEMPO DI TURNAROUND MEDIO: 50.4
+
+TEMPI DI ATTESA:
+P1 - 52ms
+P2 - 23ms
+P3 - 48ms
+P4 - 37ms
+P5 - 48ms
+TEMPO DI ATTESA MEDIO: 41.6
+
+TURNAROUND PESATI:
+P1 - 5.3
+P2 - 5.6
+P3 - 5.8
+P4 - 5.625
+P5 - 6.3
+TURNAROUND PESATO MEDIO: 5.725
+
+THROUGHPUT: 0.07

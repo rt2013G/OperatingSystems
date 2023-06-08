@@ -1,0 +1,284 @@
+Si considerino i seguenti processi attivi in un sistema multiprogrammato:
+
+PROCESSO - TEMPO DI ARRIVO - CPU BURST - PRIORITA'
+P1       - 4 ms            - 6 ms      - 3
+P2       - 9 ms            - 14 ms     - 2
+P3       - 6 ms            - 12 ms     - 1
+P4       - 6 ms            - 8 ms      - 5
+P5       - 5 ms            - 16 ms     - 4
+
+Supponendo che il cambio di contesto sia 3 ms, si mostri l'ordine di esecuzione
+dei processi e il tempo di attesa medio, il tempo di turnaround medio e
+il tempo di turnaround normalizzato medio per ciascuno dei seguenti algoritmi
+di scheduling della CPU:
+- SJF con prelazione
+- Round Robin con priorità e quanto q = 3 ms
+
+/******************************/
+
+SJF CON PRELAZIONE 
+
+1 ms -
+2 ms -
+3 ms -
+4 ms -
+5 ms - P1
+6 ms - P1
+7 ms - P1
+8 ms - P1
+9 ms - P1
+10 ms - P1
+11 ms - context switch
+12 ms - context switch
+13 ms - context switch
+14 ms - P4
+15 ms - P4
+16 ms - P4
+17 ms - P4
+18 ms - P4
+19 ms - P4
+20 ms - P4
+21 ms - P4
+22 ms - context switch
+23 ms - context switch
+24 ms - context switch
+25 ms - P3
+26 ms - P3
+27 ms - P3
+28 ms - P3
+29 ms - P3
+30 ms - P3
+31 ms - P3
+32 ms - P3
+33 ms - P3
+34 ms - P3
+35 ms - P3
+36 ms - P3
+37 ms - context switch
+38 ms - context switch
+39 ms - context switch
+40 ms - P2
+41 ms - P2
+42 ms - P2
+43 ms - P2
+44 ms - P2
+45 ms - P2
+46 ms - P2
+47 ms - P2
+48 ms - P2
+49 ms - P2
+50 ms - P2
+51 ms - P2
+52 ms - P2
+53 ms - P2
+54 ms - context switch
+55 ms - context switch
+56 ms - context switch
+57 ms - P5
+58 ms - P5
+59 ms - P5
+60 ms - P5
+61 ms - P5
+62 ms - P5
+63 ms - P5
+64 ms - P5
+65 ms - P5
+66 ms - P5
+67 ms - P5
+68 ms - P5
+69 ms - P5
+70 ms - P5
+71 ms - P5
+72 ms - P5
+
+TEMPI DI COMPLETAMENTO
+P1 - 10 ms 
+P2 - 53 ms
+P3 - 36 ms
+P4 - 21 ms
+P5 - 72 ms
+
+TEMPI DI ATTESA:
+P1 - 10-6-4 = 0ms
+P2 - 53-14-9 = 30ms
+P3 - 36-12-6 = 18ms
+P4 - 21-8-6 = 7ms
+P5 - 72-16-5 = 51ms
+TEMPO DI ATTESA MEDIO 21.2ms
+
+TEMPI DI TURNAROUND:
+P1 - 6ms
+P2 - 44ms
+P3 - 30ms
+P4 - 15ms
+P5 - 67ms
+TEMPO DI TURNAROUND MEDIO: 32.4ms
+
+TEMPI DI TURNAROUND NORMALIZZATI:
+P1 - 1
+P2 - 3.14
+P3 - 2.5
+P4 - 1.88
+P5 - 4.19
+TEMPO DI TURNAROUND NORMALIZZATO MEDIO: 2.54
+
+THROUGHPUT = 0.07
+
+
+/******************************/
+
+ROUND ROBIN CON PRIORITA' E Q = 3ms
+
+1 ms -
+2 ms -
+3 ms -
+4 ms -
+5 ms - P1 
+6 ms - context switch
+7 ms - context switch
+8 ms - context switch
+9 ms - P4
+10 ms - P4
+11 ms - P4
+12 ms - context switch
+13 ms - context switch
+14 ms - context switch
+15 ms - P5
+16 ms - P5
+17 ms - P5
+18 ms - context switch
+19 ms - context switch
+20 ms - context switch
+21 ms - P1
+22 ms - P1
+23 ms - context switch
+24 ms - context switch
+25 ms - context switch
+26 ms - P2
+27 ms - P2
+28 ms - P2
+29 ms - context switch
+30 ms - context switch
+31 ms - context switch
+32 ms - P3
+33 ms - P3
+34 ms - P3
+35 ms - context switch
+36 ms - context switch
+37 ms - context switch
+38 ms - P4
+39 ms - P4
+40 ms - P4
+41 ms - context switch
+42 ms - context switch
+43 ms - context switch
+44 ms - P5
+45 ms - P5
+46 ms - P5
+47 ms - context switch
+48 ms - context switch
+49 ms - context switch
+50 ms - P1
+51 ms - P1
+52 ms - P1
+53 ms - context switch
+54 ms - context switch
+55 ms - context switch
+56 ms - P2
+57 ms - P2
+58 ms - P2
+59 ms - context switch
+60 ms - context switch
+61 ms - context switch
+62 ms - P3
+63 ms - P3
+64 ms - P3
+65 ms - context switch
+66 ms - context switch
+67 ms - context switch
+68 ms - P4
+69 ms - P4
+70 ms - context switch
+71 ms - context switch
+72 ms - context switch
+73 ms - P5
+74 ms - P5
+75 ms - P5
+76 ms - context switch
+77 ms - context switch
+78 ms - context switch
+79 ms - P2
+80 ms - P2
+81 ms - P2
+82 ms - context switch
+83 ms - context switch
+84 ms - context switch
+85 ms - P3
+86 ms - P3
+87 ms - P3
+88 ms - context switch
+89 ms - context switch
+90 ms - context switch
+91 ms - P5
+92 ms - P5
+93 ms - P5
+94 ms - context switch
+95 ms - context switch
+96 ms - context switch
+97 ms - P2
+98 ms - P2
+99 ms - P2
+100 ms - context switch
+101 ms - context switch
+102 ms - context switch
+103 ms - P3
+104 ms - P3
+105 ms - P3
+106 ms - context switch
+107 ms - context switch
+108 ms - context switch
+109 ms - P5
+110 ms - P5
+111 ms - P5
+112 ms - context switch
+113 ms - context switch
+114 ms - context switch
+115 ms - P2
+116 ms - P2
+117 ms - context switch
+118 ms - context switch
+119 ms - context switch
+120 ms - P5
+
+TEMPI DI COMPLETAMENTO
+P1 - 52 ms
+P2 - 116 ms
+P3 - 105 ms
+P4 - 69 ms
+P5 - 120 ms
+
+TEMPI DI ATTESA
+P1 - 42 ms
+P2 - 93 ms
+P3 - 87 ms
+P4 - 55 ms
+P5 - 99 ms
+TEMPO DI ATTESA MEDIO: 75.2ms
+
+TEMPI DI TURNAROUND
+P1 - 48 ms
+P2 - 107 ms
+P3 - 99 ms
+P4 - 63 ms
+P5 - 115 ms
+TEMPO DI TURNAROUND MEDIO: 86.4ms
+
+TEMPI DI TURNAROUND NORMALIZZATI
+P1 - 8
+P2 - 7.64
+P3 - 8.25
+P4 - 8
+P5 - 7.19
+TEMPO DI TURNAROUND NORMALIZZATO MEDIO: 7.82
+
+THROUGHPUT: 0.04
