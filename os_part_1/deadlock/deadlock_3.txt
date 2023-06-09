@@ -1,0 +1,91 @@
+Supponiamo di avere 5 processi P0, P1, P2, P3, P4 e 4 classi di risorse A, B, C E D nella seguente configurazione:
+
+MAX RISORSE:
+PROCESSI/RISORSE -  A  -  B  -  C  -  D
+P0               -  6  -  4  -  5  -  5
+P1               -  10 -  1  -  6  -  8
+P2               -  6  -  2  -  0  -  4
+P3               -  2  -  3  -  6  -  2
+P4               -  3  -  2  -  4  -  5
+
+RISORSE ALLOCATE:
+PROCESSI/RISORSE -  A  -  B  -  C  -  D
+P0               -  4  -  Y-1-  3  -  2
+P1               -  8  -  0  -  Z-2-  2
+P2               -  4  -  0  -  0  -  0
+P3               -  0  -  1  -  2  -  2
+P4               -  2  -  1  -  X+1-  3
+
+RISORSE DISPONIBILI:
+A  -  B  -  C  -  D
+2  -  3  -  10 -  8
+
+Determinare:
+- Gli intervalli X, Y e Z per cui il sistema si trova in uno stato sicuro e l'eventuale sequenza sicura
+- Se la richiesta di risorse (1, 0, 3, 2) di P0 può essere soddisfatta
+
+/******************************/
+
+P0: 2>=6-4? Si - 3>=4-(Y-1) Non so - 10>=5-3? Si - 8>=5-2? Si - PLAUSIBILE SAFE
+P1: 2>=10-8? Si - 3>= 1-0? Si - 10>=6-(Z-2)? Non so - 8 >= 8-2? Si - PLAUSIBILE SAFE
+P2: 2>=6-4? Si - 3>= 2-0? Si - 10>=0-0? Si - 8>=4-0? Si - SAFE
+P3: 2>=2-0? Si - 3>=3-1? Si - 10>= 6-2? Si - 8>= 2-2? Si - SAFE
+P4 : 2>=3-2? Si - 3>=2-1? Si - 10>=4-(X+1)? Non so - 8>=5-3? Si - PLAUSIBILE SAFE
+
+Scelgo di terminare P3, il quale rilascia le risorse a esso allocate:
+RISORSE DISPONIBILI:
+A  -  B  -  C  -  D
+2  -  4  -  12 -  10
+
+P0: 2>=6-4? Si - 4>=4-(Y-1) Non so - 12>=5-3? Si - 10>=5-2? Si - PLAUSIBILE SAFE
+P1: 2>=10-8? Si - 4>= 1-0? Si - 12>=6-(Z-2)? Non so - 10 >= 8-2? Si - PLAUSIBILE SAFE
+P2: 2>=6-4? Si - 4>= 2-0? Si - 12>=0-0? Si - 10>=4-0? Si - SAFE
+P4 : 2>=3-2? Si - 4>=2-1? Si - 12>=4-(X+1)? Non so - 10>=5-3? Si - PLAUSIBILE SAFE
+
+Scelgo di terminare P2, il quale rilascia le risorse a esso allocate:
+RISORSE DISPONIBILI:
+A  -  B  -  C  -  D
+6  -  4  -  12 -  10
+
+P0: 6>=6-4? Si - 4>=4-(Y-1) Non so - 12>=5-3? Si - 10>=5-2? Si - PLAUSIBILE SAFE
+P1: 6>=10-8? Si - 4>= 1-0? Si - 12>=6-(Z-2)? Non so - 10 >= 8-2? Si - PLAUSIBILE SAFE
+P4 : 6>=3-2? Si - 4>=2-1? Si - 12>=4-(X+1)? Non so - 10>=5-3? Si - PLAUSIBILE SAFE
+
+Scelgo di terminare P1, il quale rilascia le risorse a esso allocate,
+essendoci l'incognita Z, bisogna valutare il range delle risorse rilasciate per l'i-esima risorsa
+dove l'incognita si presenta:
+12>=6-(Z-2) -> 12>=6-Z+2 -> Z>=-4
+6-(Z-2)>=0 -> Z <= 8
+
+RISORSE DISPONIBILI:
+A  -  B  -  C  -  D
+14 -  4  - Z+10-  12
+con -4 <= Z <= 8
+
+P0: 14>=6-4? Si - 4>=4-(Y-1) Non so - 18>=5-3? Si - 12>=5-2? Si - PLAUSIBILE SAFE
+P4: 14>=3-2? Si - 4>=2-1? Si - 18>=4-(X+1)? Non so - 12>=5-3? Si - PLAUSIBILE SAFE
+
+Scelgo di terminare P0, il quale rilascia le risorse a esso allocate,
+essendoci l'incognita Y, bisogna valutare il range delle risorse rilasciate per l'i-esima risorsa
+dove l'incognita si presenta:
+4>=4-Y+1 -> Y>=1
+4-Y+1>=0 -> Y<=5
+
+RISORSE DISPONIBILI:
+A  -  B  -  C  -  D
+18 - Y+3 - Z+13-  14
+con -4 <= Z <= 8, 1 <= Y <= 5
+
+P4: 18>=3-2? Si - 8>=2-1? Si - 21>=X+1? Non so - 14>=5-3? Si - PLAUSIBILE SAFE
+
+Scelgo di terminare P4, il quale rilascia le risorse a esso allocate,
+essendoci l'incognita X, bisogna valutare il range delle risorse rilasciate per l'i-esima risorsa
+dove l'incognita si presenta:
+Z+13>=4-X-1 (Z = 8) -> 21>=-X+3 -> X>=-18
+4-X-1>=0 -> X<=3
+
+Quindi la sequenza sicura è P3, P2, P1, P0, P4, con -18 <= X <= 3, 1 <= Y <= 5 e -4 <= Z <= 8
+
+
+La richiesta di risorse (1, 0, 3, 2) di P0 non può essere soddisfatta in quanto porterebbe il processo
+ad avere più risorse allocate delle risorse massime.
