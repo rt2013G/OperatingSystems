@@ -1,0 +1,91 @@
+Supponiamo di avere 5 processi P0, P1, P2, P3, P4 e 4 classi di risorse A, B, C E D nella seguente configurazione:
+
+MAX RISORSE:
+PROCESSI/RISORSE -  A  -  B  -  C  -  D
+P0               -  6  -  5  -  4  -  5
+P1               -  10 -  6  -  1  -  8
+P2               -  6  -  0  -  2  -  4
+P3               -  2  -  6  -  3  -  3
+P4               -  3  -  4  -  2  -  5
+
+RISORSE ALLOCATE:
+PROCESSI/RISORSE -  A  -  B  -  C  -  D
+P0               -  4  -  3  -  Y-1-  2
+P1               -  8  -  Z-1-  0  -  1
+P2               -  4  -  0  -  1  -  1
+P3               -  0  -  2  -  1  -  3
+P4               -  2  -  X+2-  1  -  4
+
+RISORSE DISPONIBILI:
+A  -  B  -  C  -  D
+3  -  11 -  5  -  8
+
+Determinare:
+- Gli intervalli X, Y e Z per cui il sistema si trova in uno stato sicuro e l'eventuale sequenza sicura
+- Se la richiesta di risorse (3, 1, 0, 2) di P0 può essere soddisfatta
+
+/******************************/
+
+P0
+3 >= 6-4
+11 >= 2
+5 >= 4 - Y + 1 -> Y >= 0
+4 - Y + 1 >= 0 -> Y <= 5
+8 >= 3
+
+P0 termina e rilascia le risorse ad esso allocate:
+RISORSE DISPONIBILI:
+A  -  B  -  C  -  D
+7  -  14 -  Y+4-  10
+con 0 <= Y <= 5
+
+P1
+7 >= 2
+14 >= 6 - Z + 1 -> Z >= -7
+6 - Z + 1 >= 0 -> Z <= 7
+Y+4 >= 1 -> Y >= -3
+10 >= 7
+
+P1 termina e rilascia le risorse ad esso allocate:
+RISORSE DISPONIBILI:
+A  -  B  -  C  -  D
+15 - Z+13-  Y+4-  11
+con 0 <= Y <= 5, e -7 <= Z <= 7
+
+P2
+15 >= 2
+Z+13 >= 0 -> Z >= -13
+Y+4 >= 1 -> Y >= -3
+11 >= 3
+
+P2 termina e rilascia le risorse ad esso allocate:
+RISORSE DISPONIBILI:
+A  -  B  -  C  -  D
+19 - Z+13-  Y+5-  12
+con 0 <= Y <= 5, e -7 <= Z <= 7
+
+P3
+19 >= 2
+Z+13 >= 4 -> Z >= -9
+Y+5 >= 2 -> Y >= -3
+12 >= 0
+
+P3 termina e rilascia le risorse ad esso allocate:
+RISORSE DISPONIBILI:
+A  -  B  -  C  -  D
+19 - Z+15-  Y+6-  15
+con 0 <= Y <= 5, e -7 <= Z <= 7
+
+P4
+19 >= 1
+Z+15 >= 4 - X - 2 (Z=7) -> X >= -20
+4 - X - 2 >= 0 -> X <= 2
+Y+6 >= 1 -> Y >= -5
+15 >= 1
+
+P4 termina e rilascia le risorse ad esso allocate.
+
+La sequenza sicura è P0, P1, P2, P3, P4 con -20 <= X <= 2, 0 <= Y <= 5 e -7 <= Z <= 7.
+
+
+La richiesta di risorse (3, 1, 0, 2) di P0 non può essere soddisfatta in quanto eccederebbe il numero di risorse massime richiedibili da P0.

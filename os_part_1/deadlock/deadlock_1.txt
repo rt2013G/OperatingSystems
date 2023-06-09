@@ -1,0 +1,190 @@
+Supponiamo di avere 5 processi P0, P1, P2, P3, P4 e 4 classi di risorse A, B, C E D nella seguente configurazione:
+
+MAX RISORSE:
+PROCESSI/RISORSE -  A  -  B  -  C  -  D
+P0               -  6  -  4  -  5  -  6
+P1               -  10 -  7  -  6  -  8
+P2               -  6  -  2  -  0  -  8
+P3               -  0  -  3  -  4  -  2
+P4               -  9  -  1  -  6  -  9
+
+RISORSE ALLOCATE:
+PROCESSI/RISORSE -  A  -  B  -  C  -  D
+P0               -  4  -  X-1-  3  -  2
+P1               -  8  -  0  -  Y-2-  2
+P2               -  4  -  0  -  0  -  0
+P3               -  0  -  0  -  3  -  2
+P4               -  2  -  1  -  Z+1-  4
+
+RISORSE DISPONIBILI:
+A  -  B  -  C  -  D
+2  -  2  -  10 -  4
+
+Determinare:
+- Gli intervalli X, Y e Z per cui il sistema si trova in uno stato sicuro e l'eventuale sequenza sicura
+- Se la richiesta di risorse (2, 0, 0, 2) di P2 può essere soddisfatta
+
+/******************************/
+
+P0
+2 >= 6 - 4 
+2 >= 4 - (X-1) -> X >= 3
+4 - (X-1) >= 0 -> X <= 5
+10 >= 5 - 3
+4 >= 6 - 2
+
+P0 termina e rilascia le risorse ad esso allocate:
+RISORSE DISPONIBILI:
+A  -  B  -  C  -  D
+6  -  X+1-  13 -  6
+
+P1 
+4 >= 2
+X+1 >= 7 -> X >= 6 (non può accadere perché 3 <= X <= 5)
+
+P2
+4 >= 6 - 4
+X+1 >= 2 -> X >= 1
+13 >= 0
+6 >= 8 - 0
+
+P3
+4 >= 0
+X+1 >= 3 -> X >= 2
+13 >= 1
+6 >= 
+
+P3 termina e rilascia le risorse ad esso allocate:
+RISORSE DISPONIBILI:
+A  -  B  -  C  -  D
+6  -  X+1-  16 -  8
+
+P1
+4 >= 2
+X+1 >= 7 -> X >= 6 (non può accadere perché 3 <= X <= 5)
+
+P2
+4 >= 6 - 4
+X+1 >= 2 -> X >= 1
+16 >= 0
+8 >= 8 - 0
+
+P2 termina e rilascia le risorse ad esso allocate:
+RISORSE DISPONIBILI:
+A  -  B  -  C  -  D
+10 -  X+1-  16 -  8
+
+P1
+8 >= 2
+X+1 >= 7 -> X >= 6 (non può accadere perché 3 <= X <= 5)
+
+P4
+8 >= 9 - 2
+X+1 >= 0 -> X >= -1
+16 >= 6 - Z - 1 -> Z >= -11
+6 - Z - 1 >= 0 -> Z <= 5
+8 >= 9 - 4
+
+P4 termina e rilascia le risorse ad esso allocate:
+RISORSE DISPONIBILI:
+A  -  B  -  C  -  D
+12 -  X+2- 17+Z-  12
+
+P1
+12 >= 2
+X+2 >= 7 -> X >= 5
+Z+17 >= 6 - Y + 2 -> (si sostituisce a Z l'allocazione peggiore, ovvero l'allocazione massima, in questo caso 5)
+22 >= 8 - Y -> Y >= - 14
+6 - Y + 2 >= 0 -> Y <= 8
+P1 termina e rilascia le risorse ad esso allocate.
+
+La sequenza sicura è P0, P3, P2, P4, P1 per 3 <= X <= 5, 14 <= Y <= 8 e -11 <= Z <= 5
+
+Richiesta di risorse (2, 0, 0, 2) di P2:
+P2: 6 - 0 - 0 - 2
+RISORSE DISPONIBILI:
+A  -  B  -  C  -  D
+0  -  2  -  10 -  2
+
+P0
+0 >= 6-4
+
+P1
+0 >= 10-8
+
+P2
+0 >= 0
+2 >= 2
+10 >= 0
+2 >= 6
+
+P3
+0 >= 0
+2 >= 3
+
+P4
+0 >= 7
+
+La richiesta di P2 (2, 0, 0, 2) non può essere soddisfatta immediatamente in quanto non esiste una sequenza di operazioni completamento-rilascio-allocazione che porti il sistema in uno stato sicuro.
+
+Valutiamo la richiesta di P2 dopo che P0 termina e rilascia le risorse ad esso allocate:
+RISORSE DISPONIBILI:
+A  -  B  -  C  -  D
+4  -  X+1-  13 -  4
+
+P1
+4 >= 10 - 8
+X+1 >= 7 -> X >= 6 (non può accadere perché 3 <= X <= 5)
+
+P2
+4 >= 0
+X+1 >= 2 -> X >= 1
+13 >= 0
+4 >= 8-2
+
+P3
+4 >= 0
+X+1 >= 3 -> X >= 2
+13 >= 1
+4 >= 0
+
+P3 termina e rilascia le risorse ad esso allocate:
+RISORSE DISPONIBILI:
+A  -  B  -  C  -  D
+4  -  X+1-  16 -  6
+
+P1
+4 >= 10 - 8
+X+1 >= 7 -> X >= 6 (non può accadere perché 3 <= X <= 5)
+
+P2
+4 >= 0
+X+1 >= 2
+16 >= 0
+6 >= 6
+
+P2 termina e rilascia le risorse ad esso allocate:
+RISORSE DISPONIBILI:
+A  -  B  -  C  -  D
+10 -  X+1-  16 -  8
+
+P4
+10 >= 7
+X+1 >= 0
+16 >= 6 - Z - 1 -> Z >= -11
+6 - Z - 1 >= 0 -> Z <= 5
+8 >= 5
+
+P4 termina e rilascia le risorse ad esso allocate:
+A  -  B  -  C  -  D
+12 -  X+2- Z+17-  12
+
+P1
+12 >= 2
+X+2 >= 7 -> X >= 5
+Z+17 >= 6 - Y + 2 -> (Z = 5) Y >= -14
+6 - Y + 2 >= 0 -> Y <= 8
+P1 termina e rilascia le risorse ad esso allocate.
+
+La richiesta di P2 (2, 0, 0, 2) può essere soddisfatta dopo che P0 ha rilasciato le sue risorse.
+In questo caso la sequenza sicura è P0, P3, P2, P4, P1 per 3 <= X <= 5, 14 <= Y <= 8 e -11 <= Z <= 5
